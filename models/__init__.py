@@ -1,3 +1,5 @@
+#from .backbone.dual_resnet import resnet
+
 from .mask2former.mask2former import Mask2FormerCustom
 from .mask2former.mask2former_head import Mask2FormerHeadCustom
 from .mask2former.mask2former_head_split_focal import Mask2FormerHeadSplitFocal
