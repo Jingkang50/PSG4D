@@ -1,5 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import copy
+from typing import overload
 
 import mmcv
 import numpy as np
@@ -30,7 +31,7 @@ class Mask2FormerCustomRGBD(SingleStageDetector):
                  init_cfg=None):
         super(SingleStageDetector, self).__init__(init_cfg=init_cfg)
         self.backbone = build_backbone(backbone)
-        if neck is not None:
+        if neck is not None: # neck is None here # TODO - check
             self.neck = build_neck(neck)
 
         panoptic_head_ = copy.deepcopy(panoptic_head)
@@ -55,6 +56,14 @@ class Mask2FormerCustomRGBD(SingleStageDetector):
 
         self.logger = get_root_logger()
         self.logger.info("[Unified Video Segmentation] Using customized mask2former segmentor.")
+
+    # override method for dual inputs in rgbd
+    def extract_feat(self, rgb_img, dep_img):
+        """Directly extract features from the backbone+neck."""
+        x = self.backbone(rgb_img, dep_img) # the backbone here is dual_resnet
+        # if self.with_neck:  # no neck here
+        #     x = self.neck(x)
+        return x # TODO - debug here to check x shape
 
     def forward_dummy(self, img, img_metas):
         """Used for computing network flops. See
