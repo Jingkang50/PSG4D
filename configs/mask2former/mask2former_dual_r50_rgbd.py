@@ -12,17 +12,15 @@ num_things_classes = 50
 num_stuff_classes = 13
 num_classes = num_things_classes + num_stuff_classes
 model = dict(
-    type='Mask2FormerCustom',
+    type='Mask2FormerCustomRGBD',
     backbone=dict(
-        type='ResNet',
-        depth=50,
-        num_stages=4,
-        out_indices=(0, 1, 2, 3),
-        frozen_stages=-1,
-        norm_cfg=dict(type='BN', requires_grad=False),
-        norm_eval=True,
-        style='pytorch',
-        init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet50')),
+        type='DualResNet50',
+        pretrained_model="resnet50.ckpt", # TODO - get the checkpoint
+        bn_eps=1e-5,
+        bn_momentum=0.1,
+        deep_stem=True, 
+        stem_width=64),
+        # TODO - check config here
     panoptic_head=dict(
         type='Mask2FormerHead',
         in_channels=[256, 512, 1024, 2048],  # pass to pixel_decoder inside

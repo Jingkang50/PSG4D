@@ -1,4 +1,4 @@
-#from .backbone.dual_resnet import resnet
+from .backbone.dual_resnet import DualResNet50
 
 from .mask2former.mask2former import Mask2FormerCustom
 from .mask2former.mask2former_head import Mask2FormerHeadCustom
