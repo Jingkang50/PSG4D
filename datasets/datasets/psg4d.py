@@ -93,14 +93,14 @@ class PSG4DDataset:
                 seq_count += 1
             
             images.append({
-                'rgb_img': itm,
+                'img': itm,
                 'dep_img': itm.replace('images', 'depth').replace("bmp", "npy"),
                 'ann': itm.replace('images', 'visible').replace("bmp", "npy"),
                 'objects': vid_anno['objects'],
                 'pre_hook': cates2id,  
             })
 
-            assert os.path.exists(images[-1]['rgb_img'])
+            assert os.path.exists(images[-1]['img'])
             assert os.path.exists(images[-1]['dep_img'])
             assert os.path.exists(images[-1]['ann'])
 
@@ -117,8 +117,8 @@ class PSG4DDataset:
         results['img_info'] = []
         results['thing_lower'] = 0
         results['thing_upper'] = self.num_thing_classes
-        results['ori_filename'] = os.path.basename(results['rgb_img'])
-        results['filename'] = results['rgb_img']
+        results['ori_filename'] = os.path.basename(results['img'])
+        results['filename'] = results['img']
 
     def prepare_train_img(self, idx):
         """Get training data and annotations after pipeline.
