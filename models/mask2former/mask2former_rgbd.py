@@ -86,6 +86,7 @@ class Mask2FormerCustomRGBD(SingleStageDetector):
     def forward_train(self,
                       img,
                       img_metas,
+                      dep_img, # need to be the same name in the results dict! # TODO - check if match results here
                       gt_bboxes,
                       gt_labels,
                       gt_masks,
@@ -117,8 +118,8 @@ class Mask2FormerCustomRGBD(SingleStageDetector):
             dict[str, Tensor]: a dictionary of loss components
         """
         # add batch_input_shape in img_metas
-        super(SingleStageDetector, self).forward_train(img, img_metas)
-        x = self.extract_feat(img)
+        super(SingleStageDetector, self).forward_train(img, img_metas) # TODO - check if this one is useless
+        x = self.extract_feat(img, dep_img)
         # print("model input:", "labels:", len(gt_labels[0]), "masks:", len(gt_masks[0]))
         losses = self.panoptic_head.forward_train(x, img_metas, gt_bboxes,
                                                   gt_labels, gt_masks,

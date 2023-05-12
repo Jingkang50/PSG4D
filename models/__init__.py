@@ -5,6 +5,7 @@ from .mask2former.mask2former_head import Mask2FormerHeadCustom
 from .mask2former.mask2former_head_split_focal import Mask2FormerHeadSplitFocal
 from .mask2former.mask2former_head_focal import Mask2FormerHeadFocal
 from .mask2former.mask2former_fusion_head import MaskFormerFusionHeadCustom
+from .mask2former.mask2former_rgbd import Mask2FormerCustomRGBD
 
 from .unitrack.test_mots_from_mask2former import eval_seq
 from .unitrack.model import *
