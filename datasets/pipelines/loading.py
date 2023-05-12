@@ -114,7 +114,10 @@ class LoadAnnotationsDirect:
         self.with_ps_id = with_ps_id # do we need this?
 
     def __call__(self, results):
-        pan_mask = np.array(Image.open(results['ann'])).astype(np.int64) # palette format saved one-channel image
+        ann_file = results['ann']
+        if ann_file.lower().endswith('.npy'):
+            pan_mask = np.load(ann_file)
+        pan_mask = np.array(Image.open(ann_file)).astype(np.int64) # palette format saved one-channel image
         # default:int16, need to change to int64 to avoid data overflow
         objects_info = results['objects']
         cates2id = results['pre_hook']
