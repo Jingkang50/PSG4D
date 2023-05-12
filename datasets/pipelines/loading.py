@@ -29,9 +29,11 @@ class LoadImgDirect:
 
     def __init__(self,
                  to_float32=False,
-                 color_type='color'):
+                 color_type='color',
+                 with_depth=False):
         self.to_float32 = to_float32
         self.color_type = color_type
+        self.with_depth = with_depth
 
     def __call__(self, results):
         """Call functions to load image and get image meta information.
@@ -50,6 +52,12 @@ class LoadImgDirect:
         if self.to_float32:
             img = img.astype(np.float32)
 
+        if self.with_depth:
+            dep_img = np.load(results['dep_img'])
+            # copy 3 times along channel dimension
+            dep_img = np.repeat(dep_img[:, :, np.newaxis], 3, axis=2)
+            results['dep_img'] = dep_img
+            
         results['img'] = img
         results['img_shape'] = img.shape
         results['ori_shape'] = img.shape

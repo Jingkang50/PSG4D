@@ -7,7 +7,7 @@ img_norm_cfg = dict(
 image_size = (360, 480)
 # The kitti dataset contains 1226 x 370 and 1241 x 376
 train_pipeline = [
-    dict(type='LoadImgDirect'),
+    dict(type='LoadImgDirect', with_depth=True),
     dict(type='LoadAnnotationsDirect'),
     dict(type='Resize', img_scale=image_size, keep_ratio=False),
     dict(type='RandomFlip', flip_ratio=0.5),
