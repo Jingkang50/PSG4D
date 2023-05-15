@@ -16,10 +16,10 @@ from datasets.datasets.utils import SeqObj, PVSGAnnotation, vpq_eval
 THING_CLASSES = ['person', 'car', 'motorcycle', 'truck', 'bird', 'dog', 'handbag', 
                  'suitcase', 'bottle', 'cup', 'bowl', 'chair', 'potted plant', 'bed', 
                  'dining table', 'tv', 'laptop', 'cell phone', 'bag', 'bin', 'box', 
-                 'door', 'road barrier', 'stick']
-STUFF_CLASSES = []
+                 'door', 'road barrier', 'stick', 'chair', 'sofa', 'table', 'bed']
+STUFF_CLASSES = ['sky', 'floor', 'ceiling', 'ground', 'wall', 'grass', 'fence', 'stair', 'window']
 BACKGROUND_CLASSES = ['background']
-NO_OBJ = 24
+NO_OBJ = 37
 
 NUM_THING = len(THING_CLASSES)
 NUM_STUFF = len(STUFF_CLASSES)
@@ -46,11 +46,11 @@ def build_classes():
 
 @DATASETS.register_module()
 class PSG4DDataset:
-    # CLASSES = build_classes()
+    CLASSES = build_classes()
     def __init__(self,
                  pipeline=None,
-                 data_root="./data/GAT", 
-                 annotation_file="psg4d_val_v1.json",
+                 data_root="./data/GTA", 
+                 annotation_file="psg4d_0514.json",
                  test_mode=False,
                  split='train',
                  with_relation: bool = False
@@ -58,47 +58,55 @@ class PSG4DDataset:
         assert data_root is not None
         data_root = Path(data_root)
         anno_file = data_root / annotation_file
-        video_seq_dir = data_root / split
+        # video_seq_dir = data_root / split
+        video_seq_dir = data_root # TODO - temporal change
 
         assert anno_file.exists()
         assert video_seq_dir.exists()
         images_dir = video_seq_dir / "images"
 
-        Dataset informartion
+        # Dataset informartion
         self.num_thing_classes = NUM_THING
         self.num_stuff_classes = NUM_STUFF
         self.num_classes = self.num_thing_classes + self.num_stuff_classes
         assert self.num_classes == len(self.CLASSES)
         self.no_obj_class = NO_OBJ
 
-        img_names = sorted([str(x) for x in (images_dir.rglob("*.bmp"))])
+        # img_names = sorted([str(x) for x in (images_dir.rglob("*.bmp"))])
 
-        anno = PVSGAnnotation(anno_file) # TODO - to implement PSG4DAnnotation
+        anno = PVSGAnnotation(anno_file, split) # TODO - to implement PSG4DAnnotation
+
+    
         # find all images
         images = []
         ref_images = []
         vid2seq_id = {}
         seq_count = 0
-        for itm in img_names:
-            tokens = itm.split(sep="/")
-            vid, img_id = tokens[-2], tokens[-1].split(sep=".")[0]
-            vid_anno = anno[vid]  # annotation_dict of this video
+        # find train videos
+        for video_name in anno.vid_seq:
+            video_dir = images_dir / video_name
+            frame_names = sorted([str(x) for x in (video_dir.rglob("*.bmp"))])
+            # import pdb; pdb.set_trace()
+            for itm in frame_names:
+                tokens = itm.split(sep="/")
+                vid, img_id = tokens[-2], tokens[-1].split(sep=".")[0]
+                vid_anno = anno[vid]  # annotation_dict of this video
 
-            # map vid to seq_id (seq_id starts from 0)
-            if vid in vid2seq_id:
-                seq_id = vid2seq_id[vid]
-            else:
-                seq_id = seq_count
-                vid2seq_id[vid] = seq_count
-                seq_count += 1
-            
-            images.append({
-                'img': itm,
-                'dep_img': itm.replace('images', 'depth').replace("bmp", "npy"),
-                'ann': itm.replace('images', 'visible').replace("bmp", "npy"),
-                'objects': vid_anno['objects'],
-                'pre_hook': cates2id,  
-            })
+                # map vid to seq_id (seq_id starts from 0)
+                if vid in vid2seq_id:
+                    seq_id = vid2seq_id[vid]
+                else:
+                    seq_id = seq_count
+                    vid2seq_id[vid] = seq_count
+                    seq_count += 1
+                
+                images.append({
+                    'img': itm,
+                    'dep_img': itm.replace('images', 'depth').replace("bmp", "npy"),
+                    'ann': itm.replace('images', 'visible').replace("bmp", "npy"),
+                    'objects': vid_anno['object'], # TODO temporally change to object for gta data
+                    'pre_hook': cates2id,  
+                })
 
             assert os.path.exists(images[-1]['img'])
             assert os.path.exists(images[-1]['dep_img'])
