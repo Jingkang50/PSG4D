@@ -55,13 +55,16 @@ class LoadImgDirect:
         if self.with_depth:
             dep_img = np.load(results['dep_img'])
             # copy 3 times along channel dimension
-            dep_img = np.repeat(dep_img[:, :, np.newaxis], 3, axis=2)
+            dep_img = np.repeat(dep_img[:, :, np.newaxis], 3, axis=2) # TODO - check how to do it!
             results['dep_img'] = dep_img
             
         results['img'] = img
         results['img_shape'] = img.shape
         results['ori_shape'] = img.shape
-        results['img_fields'] = ['img']
+        if self.with_depth:
+            results['img_fields'] = ['img', 'dep_img'] # !!!
+        else:
+            results['img_fields'] = ['img']
         return results
 
     def __repr__(self):
@@ -117,7 +120,8 @@ class LoadAnnotationsDirect:
         ann_file = results['ann']
         if ann_file.lower().endswith('.npy'):
             pan_mask = np.load(ann_file)
-        pan_mask = np.array(Image.open(ann_file)).astype(np.int64) # palette format saved one-channel image
+        else:
+            pan_mask = np.array(Image.open(ann_file)).astype(np.int64) # palette format saved one-channel image
         # default:int16, need to change to int64 to avoid data overflow
         objects_info = results['objects']
         cates2id = results['pre_hook']
@@ -132,7 +136,11 @@ class LoadAnnotationsDirect:
                 category = 'background'
                 gt_semantic_seg[pan_mask == instance_id] = cates2id(category) # 61
             else: # gt_label & gt_masks do not include "void"
-                category = objects_info[instance_id - 1]['category']
+                for _object in objects_info:
+                    if _object['object_id'] == instance_id:
+                        category = _object['category']
+                        break
+                # category = objects_info[instance_id - 1]['category'] # TODO - TEMPORAL change for gta json data
                 semantic_id = cates2id(category)
                 gt_semantic_seg[pan_mask == instance_id] = semantic_id
                 classes.append(semantic_id)
