@@ -8,18 +8,18 @@ load_from = 'https://download.openmmlab.com/mmdetection/v2.0/' \
             'mask2former/mask2former_r50_lsj_8x2_50e_coco-panoptic/' \
             'mask2former_r50_lsj_8x2_50e_coco-panoptic_20220326_224516-11a44721.pth'
 
-num_things_classes = 24
-num_stuff_classes = 0
+num_things_classes = 28
+num_stuff_classes = 9
 num_classes = num_things_classes + num_stuff_classes
 model = dict(
     type='Mask2FormerCustomRGBD',
     backbone=dict(
-        type='DualResNet50',
-        pretrained_model="/mnt/lustre/wxpeng/PSG4D/models/backbone/resnet50-19c8e357.pth", # TODO - get the checkpoint
+        type='DualResNet101',
+        pretrained_model="/mnt/lustre/wxpeng/PSG4D/models/backbone/resnet101_v1c.pth", # TODO - get the checkpoint
         bn_eps=1e-5,
         bn_momentum=0.1,
         deep_stem=True, 
-        stem_width=32),
+        stem_width=64),
         # TODO - check config here
     panoptic_head=dict(
         type='Mask2FormerHead',
@@ -151,7 +151,7 @@ model = dict(
 #     )
 # for debug mode
 data = dict(
-    samples_per_gpu=2, # 4 gpus
+    samples_per_gpu=16, # 4 gpus
     workers_per_gpu=2,
     )
 
