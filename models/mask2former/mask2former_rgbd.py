@@ -119,9 +119,9 @@ class Mask2FormerCustomRGBD(SingleStageDetector):
         """
         # add batch_input_shape in img_metas
         super(SingleStageDetector, self).forward_train(img, img_metas) # TODO - check if this one is useless
-        x = self.extract_feat(img, dep_img)
+        blocks, merges = self.extract_feat(img, dep_img)
         # print("model input:", "labels:", len(gt_labels[0]), "masks:", len(gt_masks[0]))
-        losses = self.panoptic_head.forward_train(x, img_metas, gt_bboxes,
+        losses = self.panoptic_head.forward_train(merges, img_metas, gt_bboxes,
                                                   gt_labels, gt_masks,
                                                   gt_semantic_seg,
                                                   gt_bboxes_ignore)
