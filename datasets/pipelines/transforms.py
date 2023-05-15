@@ -1,8 +1,39 @@
 import mmcv
 import numpy as np
 from mmdet.datasets.builder import PIPELINES
-from mmdet.datasets.pipelines import Resize, RandomFlip, Pad, Normalize
+from mmdet.datasets.pipelines import Resize, RandomFlip, Pad, Normalize, RandomCrop
 
+@PIPELINES.register_module()
+class ResizeWithDepth(Resize):
+    """This subclass of Resize is to support depth resize
+    """
+
+    def __init__(self, *args, **kwargs):
+        assert kwargs['keep_ratio']
+        super().__init__(*args, **kwargs)
+
+    def _resize_depth(self, results):
+        """Resize depth with ``results['scale']``"""
+        # Although depth is not discrete, we use nearest to match the segmentation
+        for key in results.get('depth_fields', []):
+            if self.keep_ratio:
+                results[key] = mmcv.imrescale(
+                    results[key],
+                    results['scale'],
+                    interpolation='nearest',
+                    backend=self.backend)
+            else:
+                results[key] = mmcv.imresize(
+                    results[key],
+                    results['scale'],
+                    interpolation='nearest',
+                    backend=self.backend)
+            results[key] /= results['scale_factor'].mean()
+
+    def __call__(self, results):
+        super().__call__(results)
+        self._resize_depth(results)
+        return results
 
 @PIPELINES.register_module()
 class SeqResize(Resize):
@@ -40,7 +71,18 @@ class SeqResize(Resize):
             outs.append(_results)
         return outs
 
+@PIPELINES.register_module()
+class RandomFlipWithDepth(RandomFlip):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
+    def __call__(self, results):
+        super().__call__(results)
+        if results['flip']:
+            for key in results.get('depth_fields', []):
+                results[key] = mmcv.imflip(
+                    results[key], direction=results['flip_direction'])
+        return results
 
 @PIPELINES.register_module()
 class SeqRandomFlip(RandomFlip):
