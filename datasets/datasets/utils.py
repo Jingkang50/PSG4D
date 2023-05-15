@@ -121,15 +121,16 @@ def pan_mm2hb(pred_pan_map, num_classes, divisor=10000):
 
 
 class PVSGAnnotation:
-    def __init__(self, anno_file):
+    def __init__(self, anno_file, split):
         with open(anno_file, "r") as f:
             anno = json.load(f)
             
-        self.anno = anno
-        videos = {}
-        for video_anno in anno:
-            videos[video_anno['video_id']] = video_anno
-        self.videos = videos
+        self.vid_seq = anno[split]
+        # videos = {}
+        # import pdb; pdb.set_trace()
+        # for video_anno in anno:
+        #     videos[video_anno['video_id']] = video_anno # TODO - this commenting is only for GTA json
+        self.videos = anno['data']
 
 
     def __getitem__(self, vid):
