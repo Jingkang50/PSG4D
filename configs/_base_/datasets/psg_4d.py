@@ -1,5 +1,5 @@
-dataset_type = 'PVSGImageDataset'
-data_root = './data/pvsg_v1'
+dataset_type = 'PSG4DDataset'
+data_root = './data/GTA'
 
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=False
@@ -14,10 +14,10 @@ train_pipeline = [
     dict(type='RandomCrop', crop_size=image_size, crop_type='absolute', recompute_bbox=True, allow_negative_crop=True),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='Pad', size_divisor=32),
-    dict(type='DefaultFormatBundle'),
+    dict(type='DefaultFormatBundleWithDepth'),
     dict(
         type='Collect',
-        keys=['img', 'gt_bboxes', 'gt_labels', 'gt_masks', 'gt_semantic_seg']),
+        keys=['img', 'dep_img', 'gt_bboxes', 'gt_labels', 'gt_masks', 'gt_semantic_seg']),
 ]
 
 test_pipeline = [
