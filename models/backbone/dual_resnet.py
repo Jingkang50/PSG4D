@@ -7,6 +7,8 @@ from collections import OrderedDict
 
 from mmdet.models.builder import BACKBONES
 
+import sys
+sys.path.append("/mnt/lustre/wxpeng/PSG4D/models/backbone")
 # import config
 from net_util import SAGate
 
@@ -368,9 +370,28 @@ def load_dualpath_model(model, model_file, is_restore=False):
     return model
 
 @BACKBONES.register_module()
-def DualResNet50(pretrained_model=None, **kwargs):
-    model = DualResNet(DualBottleneck, [3, 4, 6, 3], **kwargs)
+class DualResNet50(nn.Module):
+    def __init__(self,
+                 pretrained_model=None, 
+                 **kwargs):
+        super(DualResNet50, self).__init__()
+        self.model = DualResNet(DualBottleneck, [3, 4, 6, 3], **kwargs)
+        if pretrained_model is not None:
+            self.model = load_dualpath_model(self.model, pretrained_model)
+    
+    def forward(self, x1, x2):
+        return self.model(x1, x2)
 
-    if pretrained_model is not None:
-        model = load_dualpath_model(model, pretrained_model)
-    return model
+
+@BACKBONES.register_module()
+class DualResNet101(nn.Module):
+    def __init__(self,
+                 pretrained_model=None, 
+                 **kwargs):
+        super(DualResNet101, self).__init__()
+        self.model = DualResNet(DualBottleneck, [3, 4, 23, 3], **kwargs)
+        if pretrained_model is not None:
+            self.model = load_dualpath_model(self.model, pretrained_model)
+    
+    def forward(self, x1, x2):
+        return self.model(x1, x2)
