@@ -101,6 +101,13 @@ python -m torch.distributed.launch --nproc_per_node=4 test_hoi4d.py --config /mn
 ```
 The results will be stored at `exp/hoi4d/DKNet/*/result/epoch100_scoret0.1_npointt100/val/segmentation_results`
 
+## Tracking
+```bash
+cd ../3d_track
+python test_query_tube_dknet.py
+```
+Don't forget to change the corresponding config files. We provide all config files in `3d_track/configs/unitrack`
+
 ## Acknowledgement
 This repo is built upon several repos, e.g.,  [spconv](https://github.com/traveller59/spconv), [PointGroup](https://github.com/dvlab-research/PointGroup) and [DyCo3D](https://github.com/aim-uofa/DyCo3D).
 
