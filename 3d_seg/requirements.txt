@@ -1,0 +1,11 @@
+cmake>=3.13.2
+plyfile
+tensorboardX
+pyyaml
+scipy
+six
+matplotlib
+open3d==0.9.0
+numba
+h5py
+transforms3d
