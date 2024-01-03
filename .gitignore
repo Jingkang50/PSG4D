@@ -7,7 +7,13 @@
 *.pyc
 .DS_Store
 
+pc_seg/
+pc_track/
 2d_deprecated/
+data/
+rgbd_seg/checkpoints/
+rgbd_seg/work_dirs/
+rgbd_seg/wandb/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -25,7 +31,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# lib/
 lib64/
 parts/
 sdist/
