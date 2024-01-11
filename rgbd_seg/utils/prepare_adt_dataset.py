@@ -50,7 +50,8 @@ SAVED_PATH=os.path.join("./img_data",args.paths_provider)
 mkdir(SAVED_PATH)
 selected_device_number = 0
 data_paths = gt_provider.get_datapaths_by_device_num(selected_device_number,True) #if want to get occluded data,the args would be true
-
+font = ImageFont.truetype("./Font/OpenSans-Bold.ttf",20)
+Iter_font = ImageFont.truetype("./Font/OpenSans-Bold.ttf",50)
 gt_provider = AriaDigitalTwinDataProvider(data_paths)
 stream_id = StreamId("214-1")
 img_timestamps_ns = gt_provider.get_aria_device_capture_timestamps_ns(stream_id)
@@ -82,10 +83,10 @@ for iter in tqdm(range(len(img_timestamps_ns))):
     tempdata_rgb=np.repeat(temp_RGB_provider.data().to_numpy_array()[..., np.newaxis], 3, axis=2) if len(temp_RGB_provider.data().to_numpy_array().shape) < 3 else temp_RGB_provider.data().to_numpy_array()
     # tempSYN_rgb=np.repeat(temp_SYN_provider.data().to_numpy_array()[..., np.newaxis], 3, axis=2) if len(temp_SYN_provider.data().to_numpy_array().shape) < 3 else temp_SYN_provider.data().to_numpy_array()
     new_rgb=cv2.cvtColor(tempdata_rgb, cv2.COLOR_BGR2RGB)
-    # mkdir(os.path.join(SAVED_PATH,"image"))
-    # cv2.imwrite(os.path.join(SAVED_PATH,"image",f"{iter}.jpg"),new_rgb)
-    # mkdir(os.path.join(SAVED_PATH,"depth"))
-    # np.savez_compressed(os.path.join(SAVED_PATH,"depth",f"{iter}.npz"),tempdata_depth)
+    mkdir(os.path.join(SAVED_PATH,"image"))
+    cv2.imwrite(os.path.join(SAVED_PATH,"image",f"{iter}.jpg"),new_rgb)
+    mkdir(os.path.join(SAVED_PATH,"depth"))
+    np.savez_compressed(os.path.join(SAVED_PATH,"depth",f"{iter}.npz"),**{"depth": tempdata_depth})
     mkdir(os.path.join(SAVED_PATH,"segmentation"))
     np.savez_compressed(os.path.join(SAVED_PATH,"segmentation",f"{iter}.npz"), **{"segmentation": raw_seg})
     #TODO imwrite the new_rgb to file
