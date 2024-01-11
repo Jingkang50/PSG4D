@@ -46,18 +46,17 @@ except:
 def mkdir(SAVED_PATH):
     if not os.path.exists(SAVED_PATH):
         os.mkdir(SAVED_PATH)
-SAVED_PATH=os.path.join("./img_data",args.paths_provider)
+SAVED_PATH=os.path.join("./data",args.paths_provider)
 mkdir(SAVED_PATH)
 selected_device_number = 0
 data_paths = gt_provider.get_datapaths_by_device_num(selected_device_number,True) #if want to get occluded data,the args would be true
-font = ImageFont.truetype("./Font/OpenSans-Bold.ttf",20)
-Iter_font = ImageFont.truetype("./Font/OpenSans-Bold.ttf",50)
+
 gt_provider = AriaDigitalTwinDataProvider(data_paths)
 stream_id = StreamId("214-1")
 img_timestamps_ns = gt_provider.get_aria_device_capture_timestamps_ns(stream_id)
 print("There are {} frames".format(len(img_timestamps_ns)))
 
-with open(f"/mnt/petrelfs/liushuai1/aria_data/instance_mapping/{args.paths_provider}.json","r")as f:
+with open(f"./instance_mapping/{args.paths_provider}.json","r")as f:
     instance_mapping=json.load(f)
 check_path=lambda x:os.mkdir(x) if not os.path.exists(x) else None 
 
