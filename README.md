@@ -46,16 +46,14 @@
 
 We provide two dataset to facilitate PSG4D research. To access them, please checkout `data/GTA` and `data/HOI`.
 
-<div style="display: flex; justify-content: space-around;">
-  <div style="width: 45%;">
-    <iframe src="https://player.vimeo.com/video/947191752?h=b912b9e0b6" width="100%" height="300" frameborder="0" allowfullscreen></iframe>
-    <p style="text-align: center;">PSG4D-GTA Dataset Demo</p>
-  </div>
-  <div style="width: 45%;">
-    <iframe src="https://player.vimeo.com/video/947193001?h=33c580b86a" width="100%" height="300" frameborder="0" allowfullscreen></iframe>
-    <p style="text-align: center;">PSG4D-HOI Dataset Demo</p>
-  </div>
-</div>
+
+
+
+| ![gta4d](https://github.com/Jingkang50/PSG4D/assets/17070708/ea42b6a7-aa7d-4128-9c34-35a014041354) |![hoi4d](https://github.com/Jingkang50/PSG4D/assets/17070708/6067b574-ba9e-4932-8a7f-1e48af6f4802)|
+|:--:|:--:|
+| PSG4D-GTA Dataset Demo | PSG4D-HOI Dataset Demo |
+
+
 
 ## Get Started
 
