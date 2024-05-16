@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CONFIG=configs/mask2former/mask2former_r50_lsj_8x2_50e_coco-panoptic.py
+CONFIG=configs/mask2former/mask2former_dual_rgbd.py
 WORK_DIR=work_dirs/pvsg_demo_mask2former_r50_default_train_dsit
 GPUS=4
 NNODES=${NNODES:-1}

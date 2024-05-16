@@ -22,15 +22,6 @@ class GTASingleVideoDataset:
                  test_mode=True,
                  split='val',
                  ):
-    def __init__(
-        self,
-        pipeline=None,
-        data_root='./data/',
-        annotation_file='pvsg.json',
-        video_name="ah_3b_mcs_5",
-        test_mode=False,
-        split='test',
-    ):
         assert data_root is not None
         data_root = Path(data_root)
         anno_file = data_root / annotation_file

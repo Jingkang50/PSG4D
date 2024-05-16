@@ -7,8 +7,7 @@
 *.pyc
 .DS_Store
 
-pc_seg/
-pc_track/
+
 2d_deprecated/
 data/
 rgbd_seg/checkpoints/
@@ -158,3 +157,6 @@ dmypy.json
 tools/custom_tools
 scripts/_depreciated
 # configs/detseg
+
+rgbd_seg/tools/visualize.py
+rgbd_seg/tools/gcp_train.sh

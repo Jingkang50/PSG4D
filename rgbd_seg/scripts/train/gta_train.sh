@@ -1,20 +1,20 @@
-set -x
+#!/usr/bin/env bash
 
-# sh scripts/train/gta_train.sh
-PARTITION=priority
-JOB_NAME=gta
 CONFIG=configs/mask2former/mask2former_dual_rgbd.py
 WORK_DIR=work_dirs/gta_rgbd_train
-GPUS_PER_NODE=${GPUS_PER_NODE:-8}
-CPUS_PER_TASK=${CPUS_PER_TASK:-5}
-PY_ARGS=${@:5}
+GPUS=4
+NNODES=${NNODES:-1}
+NODE_RANK=${NODE_RANK:-0}
+MASTER_ADDR=${MASTER_ADDR:-"127.0.0.1"}
+PORT=${PORT:-29505}
 
-PYTHONPATH="/mnt/lustre/jkyang/PSG4D/code/rgbd_seg":$PYTHONPATH \
-srun -p ${PARTITION} \
-    --job-name=${JOB_NAME} \
-    --gres=gpu:${GPUS_PER_NODE} \
-    --ntasks-per-node=${GPUS_PER_NODE} \
-    --cpus-per-task=${CPUS_PER_TASK} \
-    --kill-on-bad-exit=1 \
-    -x SG-IDC2-10-51-5-51 \
-    python -u tools/train.py ${CONFIG} --work-dir=${WORK_DIR} --launcher="slurm" ${PY_ARGS}
+PYTHONPATH="$(dirname $0)/..":$PYTHONPATH OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+    torchrun --nnodes=$NNODES \
+    --nnodes=$NNODES \
+    --node_rank=$NODE_RANK \
+    --master_addr=$MASTER_ADDR \
+    --master_port=$PORT \
+    --nproc_per_node=$GPUS \
+    tools/train.py ${CONFIG} \
+    --work-dir ${WORK_DIR} \
+    --launcher pytorch
