@@ -1,19 +1,19 @@
 # 4D Panoptic Scene Graph Generation
 <p align="center">
 
-| ![pvsg.jpg](assets/teaser.png) |
+| ![psg4d.jpg](assets/teaser.png) |
 |:--:|
 
   <p align="center">
-  <a href="https://arxiv.org/" target='_blank'>
+  <a href="https://arxiv.org/abs/2405.10305" target='_blank'>
     <img src="https://img.shields.io/badge/Paper-NeurIPS%202023-b31b1b?style=flat-square">
   </a>
   &nbsp;&nbsp;&nbsp;
-  <a href="https://entuedu-my.sharepoint.com/:f:/g/personal/jingkang001_e_ntu_edu_sg/EpHpnXP-ta9Nu1wD6FwkDWAB0LxY8oE9VNqsgv6ln-i8QQ?e=fURefF" target='_blank'>
+  <a href="https://entuedu-my.sharepoint.com/:f:/g/personal/jingkang001_e_ntu_edu_sg/EhUgIeYBPmVCvqeaJA-hmzkBdVcXt1QKtw3DX9a5zTnLsg?e=rUItPm" target='_blank'>
     <img src="https://img.shields.io/badge/Data-PSG4D-334b7f?style=flat-square">
   </a>
   &nbsp;&nbsp;&nbsp;
-  <a href="https://entuedu-my.sharepoint.com/:f:/g/personal/jingkang001_e_ntu_edu_sg/EgvpTfCTMudLpxw-h0_BVdcBAHacUaAQD-u9OvkUlpaDBg?e=LXnqaX" target='_blank'>
+  <a href="https://entuedu-my.sharepoint.com/:f:/g/personal/jingkang001_e_ntu_edu_sg/EsjNwS7KKDVIuM2NyiKeR-sBowGs-OfmWy2cTaXinpJ7hQ?e=baWkgm" target='_blank'>
     <img src="https://img.shields.io/badge/Data-QuickView-7de5f6?style=flat-square">
   </a>
   &nbsp;&nbsp;&nbsp;
@@ -44,7 +44,7 @@
 
 ## The PSG4D Dataset
 
-We provide two dataset to facilitate PSG4D research. Each dataset is composed with RGB-D/3D videos. To access them, please checkout [`data/GTA`](data/GTA) and [`data/HOI`](data/GTA).
+We provide two dataset to facilitate PSG4D research. Each dataset is composed with RGB-D/3D videos. To access them, please checkout [`data/GTA`](data/GTA) and [`data/HOI`](data/GTA). If you find downloading PSG4D-GTA dataset challenging, please email `jingkang001@e.ntu.edu.sg` for some useful tips.
 
 
 
@@ -54,10 +54,10 @@ We provide two dataset to facilitate PSG4D research. Each dataset is composed wi
 
 
 
-## Methodologies
-| ![pvsg.jpg](assets/method.png) |
+## How to Run
+| ![psg4dformer.jpg](assets/method.png) |
 |:--:|
-|<b>Illustration of the PSG4DFormer pipeline.</b> The PSG4DFormer is a two stage pipeline. For Panoptic Segmentation part, please refer to `rgbd_seg` for RGB-D segmentation and `pc_seg` for point cloud segmentation. Then please refer to `*_track`. The relation modeling is identical to our previous work [OpenPVSG](https://github.com/LilyDaytoy/OpenPVSG?tab=readme-ov-file#training-and-testing). Each part can be considered as a standalone code.|
+|<b>Illustration of the PSG4DFormer pipeline.</b> The PSG4DFormer is a two stage pipeline. For Panoptic Segmentation part, please refer to `rgbd_seg` for RGB-D segmentation and `pc_seg` for point cloud segmentation. Then please refer to `*_track`. The relation modeling is identical to our previous work [OpenPVSG](https://github.com/LilyDaytoy/OpenPVSG?tab=readme-ov-file#training-and-testing). Each part can be considered as a standalone code, so please checkout the readme in each directory.|
 
 
 
