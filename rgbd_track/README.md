@@ -1,0 +1,1 @@
+Please check the implementation of [OpenPVSG](https://github.com/LilyDaytoy/OpenPVSG?tab=readme-ov-file#training-and-testing) after you gather the frame-level segmentation model.

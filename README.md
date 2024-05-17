@@ -44,13 +44,20 @@
 
 ## The PSG4D Dataset
 
-We provide two dataset to facilitate PSG4D research. To access them, please checkout `data/GTA` and `data/HOI`.
+We provide two dataset to facilitate PSG4D research. Each dataset is composed with RGB-D/3D videos. To access them, please checkout [`data/GTA`](data/GTA) and [`data/HOI`](data/GTA).
 
-| ![gta4d](https://jingkang50.github.io/files/gta4d.mp4) |![hoi4d](https://jingkang50.github.io/files/hoi4d.mp4) |
+
+
+| ![gta4d](https://github.com/Jingkang50/PSG4D/assets/17070708/ea42b6a7-aa7d-4128-9c34-35a014041354) |![hoi4d](https://github.com/Jingkang50/PSG4D/assets/17070708/6067b574-ba9e-4932-8a7f-1e48af6f4802)|
 |:--:|:--:|
 | PSG4D-GTA Dataset Demo | PSG4D-HOI Dataset Demo |
 
-## Get Started
+
+
+## Methodologies
+| ![pvsg.jpg](assets/method.png) |
+|:--:|
+|<b>Illustration of the PSG4DFormer pipeline.</b> The PSG4DFormer is a two stage pipeline. For Panoptic Segmentation part, please refer to `rgbd_seg` for RGB-D segmentation and `pc_seg` for point cloud segmentation. Then please refer to `*_track`. The relation modeling is identical to our previous work [OpenPVSG](https://github.com/LilyDaytoy/OpenPVSG?tab=readme-ov-file#training-and-testing). Each part can be considered as a standalone code.|
 
 
 
