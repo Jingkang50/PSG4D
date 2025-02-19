@@ -44,7 +44,7 @@
 
 ## The PSG4D Dataset
 
-We provide two dataset to facilitate PSG4D research. Each dataset is composed with RGB-D/3D videos. To access them, please checkout [`data/GTA`](data/GTA) and [`data/HOI`](data/GTA). If you find downloading PSG4D-GTA dataset challenging, please email `jingkang001@e.ntu.edu.sg` for some useful tips.
+We provide two dataset to facilitate PSG4D research. Each dataset is composed with RGB-D/3D videos. To access them, please checkout [`data/GTA`](data/GTA) and [`data/HOI`](data/HOI). If you find downloading PSG4D-GTA dataset challenging, please email `jingkang001@e.ntu.edu.sg` for some useful tips.
 
 
 
